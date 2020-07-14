@@ -5,7 +5,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import com.kakao.auth.Session
+import com.kakao.network.ErrorResult
+import com.kakao.usermgmt.UserManagement
+import com.kakao.usermgmt.callback.LogoutResponseCallback
+import com.kakao.usermgmt.callback.UnLinkResponseCallback
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -15,6 +21,52 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // 로그아웃
+        logout.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setMessage("로그아웃 하시겠습니까?")
+            builder.setPositiveButton("확인") { dialogInterface, i ->
+                UserManagement.getInstance().requestLogout(object : LogoutResponseCallback() {
+                    override fun onCompleteLogout() {
+
+                    }
+                })
+                dialogInterface.dismiss()
+            }
+            builder.setNegativeButton("취소") { dialogInterface, i ->
+                dialogInterface.dismiss()
+            }
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+
+        }
+
+        // 앱연결 해제
+        link_out.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setMessage("앱 연결을 해제하시겠습니까?")
+            builder.setPositiveButton("확인"){ dialogInterface, i ->
+                UserManagement.getInstance().requestUnlink(object : UnLinkResponseCallback() {
+                    override fun onFailure(errorResult: ErrorResult?) {
+                        Log.i("Log",errorResult!!.toString())
+                    }
+                    override fun onSessionClosed(errorResult: ErrorResult) {
+                    }
+                    override fun onNotSignedUp() {
+                    }
+                    override fun onSuccess(userId: Long?) {
+                        Log.i("Log",userId.toString())
+                    }
+                })
+                dialogInterface.dismiss()
+            }
+            builder.setNegativeButton("취소") { dialogInterface, i ->
+                dialogInterface.dismiss()
+            }
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        }
 
         Session.getCurrentSession().addCallback(callback);
 
@@ -33,6 +85,8 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
     }
 }
+
+
 //class MainActivity : AppCompatActivity() {
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)
