@@ -1,3 +1,5 @@
+package com.example.kakaologin
+
 import android.app.Application
 import com.example.kakaologin.KakaoSDKAdapter
 import com.kakao.auth.KakaoSDK
