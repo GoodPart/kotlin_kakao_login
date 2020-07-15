@@ -1,16 +1,19 @@
 package com.example.kakaologin
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AlertDialog
+import android.widget.TextView
 import com.kakao.auth.Session
 import com.kakao.network.ErrorResult
 import com.kakao.usermgmt.UserManagement
 import com.kakao.usermgmt.callback.LogoutResponseCallback
+import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.callback.UnLinkResponseCallback
+import com.kakao.usermgmt.response.MeV2Response
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -70,6 +73,11 @@ class MainActivity : AppCompatActivity() {
 
         Session.getCurrentSession().addCallback(callback);
 
+
+
+        Log.i("clear", "${MeV2Response.KEY_NICKNAME}")
+
+
     }
 
     @SuppressLint("MissingSuperCall")
@@ -83,10 +91,10 @@ class MainActivity : AppCompatActivity() {
             return
         }
         super.onActivityResult(requestCode, resultCode, data)
+
+
     }
 }
-
-
 //class MainActivity : AppCompatActivity() {
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)

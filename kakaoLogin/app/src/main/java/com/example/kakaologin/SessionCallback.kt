@@ -1,12 +1,14 @@
 package com.example.kakaologin
 
 import android.util.Log
+import android.widget.TextView
 import com.kakao.auth.ISessionCallback
 import com.kakao.network.ErrorResult
 import com.kakao.usermgmt.UserManagement
 import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
 import com.kakao.util.exception.KakaoException
+import org.w3c.dom.Text
 
 class SessionCallback : ISessionCallback {
     override fun onSessionOpenFailed(exception: KakaoException?) {
